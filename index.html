@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        p {
+            font-weight: bold;    
+        }
+
+
+        /* border값만 좀 다르게 주고싶은 친구들 */
+        .designBorder {
+            padding: 1px 5px;
+            background: #fff;
+            border: 1px solid silver;
+            border-radius: 5px;
+            color: crimson;
+            font-size: 12px;
+        }
+
+        #container{
+            width: 400px;
+            height: 400px;
+            text-align:center;
+            border:1px solid black; 
+        }
+        #chatListContainer{
+            width: 350px;
+            height: 280px;
+            margin: 0 auto ;
+            border:1px solid black; 
+        }
+
+        #chatInputContainer{
+            width: 350px;
+            height: 50px;
+            margin: 0 auto ;
+            margin-top: 10px;
+            border:1px solid black; 
+        }
+        #chatInputContainer form input:first-child {
+            width:90%;
+            margin:0 auto;
+            margin-bottom:3px;
+            
+        }
+        #chatInputContainer form input:last-child {
+            width: 92%;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        #chatLists {
+            width : 97%;
+            height: 97%;
+            overflow:scroll;
+            margin: 0 auto;
+            border: 1px solid red ;
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <p>
+            Mini ChatGPT
+        </p>
+        <!-- 여기다가 음.. -->
+        <div id="chatListContainer">
+            <!-- 여기에 넣고..싶은.. -->
+            <div id="chatLists" class="designBorder"> 
+                
+            </div>
+        </div>
+        <!-- chatListContainer 끝 -->
+
+        <div id="chatInputContainer">
+
+            <form id="chatForm">
+                <input id="userMsg" class="designBorder" type="text" value=""/><br>
+                <input class="designBorder" onclick="chat()" type="button" value="전송"/>
+            </form>
+
+        </div>
+        <!--chatInputContainer 끝 -->
+    </div>
+
+
+</body>
+
+<script>
+
+
+
+    const chatLists = document.getElementById("chatLists") ;
+    
+    
+
+    function xSize(ele)
+    {
+        ele.style.height = '1px';
+        ele.style.height = (ele.scrollHeight + 12) + 'px';
+        return ele.style.height ;
+    }
+
+
+
+
+    function chat() {
+        
+        axios({
+                method: "post",
+                url: "http://localhost:8080/ChatBot_CEX/userChat",
+                data : {
+                    Msg : document.getElementById("userMsg").value,
+                },
+            })
+            .then((res)=>{
+                //console.log(res.data);
+                //데이터가 오면 온 데이터를 chatList에 추가
+                const newChat = document.createElement("textarea");
+                newChat.style.border = '1px solid black';
+                
+                newChat.innerText = res.data ;
+                newChat.style.width = '95%';
+                chatLists.appendChild( newChat );
+                newChat.style.height = xSize( newChat ) ;
+                chatLists.scrollTop = chatLists.scrollHeight;
+            })
+    }
+</script>
+
+</html>

@@ -1,0 +1,9 @@
+{
+    "name": "ChatBot_CEX",
+    "description": "ChatGPT 크롬 익스텐션 V1",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup" : "index.html"
+    }
+}
