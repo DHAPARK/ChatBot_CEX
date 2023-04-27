@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://back.jenfra.shop/api/openai/getReport https://unpkg.com/axios/dist/axios.min.js https://cdnjs.cloudflare.com https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js https://cdnjs.cloudflare.com 'unsafe-inline' 'unsafe-eval'; script-src-elem 'self' https://unpkg.com/axios/dist/axios.min.js https://cdnjs.cloudflare.com https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js https://cdnjs.cloudflare.com https://back.jenfra.shop/api/openai/getReport 'unsafe-inline' 'unsafe-eval';">
+    
+    <script src="./axios.min.js"></script>
+    <script src="./method.js"></script>
+
     <style>
         body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -12,7 +16,6 @@
         p {
             font-weight: bold;    
         }
-
 
         /* border값만 좀 다르게 주고싶은 친구들 */
         .designBorder {
@@ -79,7 +82,7 @@
 
             <form id="chatForm">
                 <input id="userMsg" class="designBorder" type="text" value=""/><br>
-                <input class="designBorder" onclick="chat()" type="button" value="전송"/>
+                <input id="sendBtn" class="designBorder" type="button" value="전송"/>
             </form>
 
         </div>
@@ -89,52 +92,6 @@
 
 </body>
 
-<script>
 
 
-
-    const chatLists = document.getElementById("chatLists") ;
-    
-    
-
-    function xSize(ele)
-    {
-        ele.style.height = '1px';
-        ele.style.height = (ele.scrollHeight + 12) + 'px';
-        return ele.style.height ;
-    }
-
-
-
-
-    function chat() {
-        
-        axios({
-                method: "post",
-                url: "https://back.jenfra.shop/api/openai/getReport",
-                data : {
-                    text : document.getElementById("userMsg").value,
-                    optionTwo: ``
-                },
-            })
-            .then((res)=>{
-                //console.log(res.data);
-                //데이터가 오면 온 데이터를 chatList에 추가
-                const newChat = document.createElement("textarea");
-                newChat.style.border = '1px solid black';
-                newChat.innerText = res.data ;
-                newChat.style.width = '95%';
-                chatLists.appendChild( newChat );
-                newChat.style.height = xSize( newChat ) ;
-                newChat.style.padding = '1px 5px';
-                newChat.style.backgroundColor = 'black';
-                newChat.style.border = "1px solid silver" ;
-                newChat.style.borderRadius = "5px";
-                newChat.style.fontSize = "12px" ;
-                newChat.style.color = "white";
-                chatLists.scrollTop = chatLists.scrollHeight;
-                
-            })
-    }
-</script>
 </html>
